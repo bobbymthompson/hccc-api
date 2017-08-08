@@ -52,9 +52,7 @@ router.get('/:id',
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 Shopping list item not found.
  */
-router.put('/:id',
-  body({ description }),
-  update)
+router.put('/:id', bodyParser.json(), update)
 
 /**
  * @api {delete} /shopping-list-items/:id Delete shopping list item

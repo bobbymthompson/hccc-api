@@ -4,6 +4,7 @@ import { ShoppingListItem } from '.'
 
 export const create = (req, res, next) => {
   ShoppingListItem.create(req.body)
+    .then((sli) => sli.view ? sli.view(true) : {})
     .then(success(res, 201))
     .catch(next)
 }
@@ -21,10 +22,10 @@ export const show = ({ params }, res, next) =>
     .then(success(res))
     .catch(next)
 
-export const update = ({ bodymen: { body }, params }, res, next) =>
-  ShoppingListItem.findById(params.id)
+export const update = (req, res, next) =>
+  ShoppingListItem.findById(req.params.id)
     .then(notFound(res))
-    .then((shoppingListItem) => shoppingListItem ? _.merge(shoppingListItem, body).save() : null)
+    .then((shoppingListItem) => shoppingListItem ? _.merge(shoppingListItem, req.body).save() : null)
     .then((shoppingListItem) => shoppingListItem ? shoppingListItem.view(true) : null)
     .then(success(res))
     .catch(next)
